@@ -17,5 +17,10 @@ namespace ErinaScraper.src.ErinaScraper
         public string Score { get; set; }
 
         public string MangaImagen { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Title : {0} ,\n MangaUrl: {1} ,\n Type : {2} , \n Demography: {3},\n Score: {4}, \n MangaImagen: {5}", Title,MangaUrl,Type,Demography,Score,MangaImagen);
+        }
     }
 }

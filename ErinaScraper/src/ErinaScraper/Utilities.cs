@@ -25,11 +25,32 @@ namespace ErinaScraper.src.ErinaScraper
 
         public readonly static string GetStado = "#app > section > header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-9.element-header-content-text > span.book-status";
 
+        /*
         public static string GetImageFromMangaUrl(string imagen, string mangaIdentificador)
         {
-            var formatoParaCadenaABorrar = string.Format(".book-thumbnail-{0}::before "+"{background-image: url(' ');}", mangaIdentificador);
-            var cadSinBackground = imagen.Replace(imagen.Trim(), formatoParaCadenaABorrar);
-            return cadSinBackground;
+            var formatoImagenBackground = "{background-image: url('";
+            var formato = "');}";
+            var formatoParaCadenaABorrar = string.Format(".book-thumbnail-{0}::before ", mangaIdentificador);
+
+            var cadSinBackground = imagen.Replace(formatoImagenBackground,"");
+            //Console.WriteLine("Cad Sin Background =>",cadSinBackground);
+            var cad1 = cadSinBackground.Replace(formatoParaCadenaABorrar,"");
+
+            //var cad2 = cad1.Replace(formato,"");
+           // var cadSinBackground = imagen.Remove(1,70);
+            return cad1.Trim();
+        }
+        */
+
+        public static string GetImagenFromMangaUrl(string imagen ,string mangaIdentificador)
+        {
+            //var formato1 = string.Format(".book-thumbnail-{0}::before{", mangaIdentificador);
+
+            var cad1 = imagen.Remove(1,90);
+            Console.WriteLine(cad1.Length);
+            var cad2 = cad1.Replace("');"," ");
+            var cad3 = cad2.Replace("}", " ");
+            return cad3.Trim();
         }
     }
 }

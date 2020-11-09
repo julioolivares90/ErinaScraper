@@ -55,7 +55,7 @@ namespace ErinaScraper.src.ErinaScraper
 
                     Score = item.QuerySelector("a > div > span.score > span").TextContent,
 
-                    MangaImagen = Utilities.GetImageFromMangaUrl(item.QuerySelector("a > div > style").TextContent,mangaIdentificador),
+                    MangaImagen = Utilities.GetImagenFromMangaUrl(item.QuerySelector("a > div > style").TextContent,mangaIdentificador),
                 };
 
                 mangas.Add(manga);

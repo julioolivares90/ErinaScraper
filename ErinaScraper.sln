@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErinaScraper", "ErinaScraper\ErinaScraper.csproj", "{1C923CBC-C794-4B20-907F-1AC68C28FE59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErinaScraper", "ErinaScraper\ErinaScraper.csproj", "{1C923CBC-C794-4B20-907F-1AC68C28FE59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{28DA1B99-E335-4D08-9021-A57693ADAA9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErinaScraper.test", "ErinaScraper.test\ErinaScraper.test.csproj", "{E1959568-5540-44F1-B91F-D022EE710752}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{01582585-8B74-496E-B44E-73945D495B5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErinaScraper.Samples", "ErinaScraper.Samples\ErinaScraper.Samples.csproj", "{76B8F835-1A77-4957-BBF3-5390C25C50DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,21 @@ Global
 		{1C923CBC-C794-4B20-907F-1AC68C28FE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C923CBC-C794-4B20-907F-1AC68C28FE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C923CBC-C794-4B20-907F-1AC68C28FE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1959568-5540-44F1-B91F-D022EE710752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1959568-5540-44F1-B91F-D022EE710752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1959568-5540-44F1-B91F-D022EE710752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1959568-5540-44F1-B91F-D022EE710752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B8F835-1A77-4957-BBF3-5390C25C50DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B8F835-1A77-4957-BBF3-5390C25C50DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B8F835-1A77-4957-BBF3-5390C25C50DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B8F835-1A77-4957-BBF3-5390C25C50DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1959568-5540-44F1-B91F-D022EE710752} = {28DA1B99-E335-4D08-9021-A57693ADAA9E}
+		{76B8F835-1A77-4957-BBF3-5390C25C50DE} = {01582585-8B74-496E-B44E-73945D495B5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D630D2AF-075D-4F15-AE71-E173B3E13E2E}
