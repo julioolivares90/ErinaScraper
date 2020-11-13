@@ -13,7 +13,7 @@
         {
             var scraper = new ErinaScraper();
 
-            //Obtenemos los mangas populares del sitio
+            //Obtenemos los mangas populares 
             var mangasPopulares = await scraper.GetMangasAsync(MangaType.Populars);
 
             foreach (var item in mangasPopulares)
@@ -21,7 +21,7 @@
                 Console.WriteLine(item.ToString());
             }
 
-            //Obtenemos los mangas seinen del sitio
+            //Obtenemos los mangas seinen 
             var mangasSeinen = await scraper.GetMangasAsync(MangaType.Seinen);
 
             foreach (var item in mangasSeinen)
