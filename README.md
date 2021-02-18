@@ -1,6 +1,6 @@
 # ErinaScraper
 # Sitios soportados
--[x] https://lectortmo.com/
+- [x] https://lectortmo.com/
 ## **:package: Principales herramientas usadas**
 
 - [x] anglesharp
