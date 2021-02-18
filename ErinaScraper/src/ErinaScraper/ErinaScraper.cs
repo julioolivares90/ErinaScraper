@@ -15,5 +15,13 @@ namespace ErinaScraper
 
             return mangas;
         }
+
+        public async Task<MangaInfo> GetMangaInfoAsync(string urlManga)
+        {
+            var mangaInfo = await Scraper.GetMangaInfoAsync(urlManga);
+
+            return mangaInfo;
+        }
+
     }
 }
