@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Roberto_90</Authors>
+    <Company>Roberto_90</Company>
+    <Version>1.0.1</Version>
+    <RootNamespace>ErinaScraper.ErinaScraper</RootNamespace>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/julioolivares90/ErinaScraper</RepositoryUrl>
+    <Description>Libreria para obtener informacion de varios sitios de manga</Description>
   </PropertyGroup>
 
   <ItemGroup>
