@@ -25,6 +25,26 @@ namespace ErinaScraper.src.ErinaScraper
 
         public readonly static string GetStado = "#app > section > header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-9.element-header-content-text > span.book-status";
 
+
+        public readonly static string MangaInfoTitle = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-9.element-header-content-text > h1";
+        public readonly static string MangaInfoImagen = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-3.text-center > div > img";
+
+        public readonly static string MangaInfoTipo = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-3.text-center > h1";
+        public readonly static string MangaInfoScore = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-3.text-center > div > div.score > a > span";
+
+        public readonly static string MangaInfoDemografia = "header > section.element-header-content > div.container > div.row > div.col-12 > div.element-image > div.demography";
+        public readonly static string MangaInfoDescripcion = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-9.element-header-content-text > p.element-description";
+        public readonly static string MangaInfoEstado = "header > section.element-header-content > div.container.h-100 > div > div.col-12.col-md-9.element-header-content-text > span.book-status";
+
+        public readonly static string MANGAINFO_GENEROS = "header > section > div.container > div.row > div.col-12 > h6";
+
+
+        public readonly static string CAPITULOS_MANGAINFO_SIN_COLLAPSE = "#chapters > ul.list-group > li";
+        public readonly static string CAPITULOS_MANGAINFO_COLLAPSE = "#chapters > ul.list-group > div > li";
+
+
+        public readonly static string MANGA_INFO_NOMBRE_CAPITULO = "h4 > div.row > div > a.btn-collapse";
+        public readonly static string MANGA_INFO_URL = "div > div > ul > li  > div.row > div.col-2 > a";
         /*
         public static string GetImageFromMangaUrl(string imagen, string mangaIdentificador)
         {

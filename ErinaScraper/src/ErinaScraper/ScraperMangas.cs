@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AngleSharp.Text;
 using System.Linq;
+using System;
 
 namespace ErinaScraper.src.ErinaScraper
 {
-    class ScraperMangas
+   public class ScraperMangas
     {
         /// <summary>
         /// metodo para configurar un brwoserContext
@@ -64,76 +65,8 @@ namespace ErinaScraper.src.ErinaScraper
             return mangas;
         }
 
-        /// <summary>
-        /// retorna la informacion de un manga 
-        /// </summary>
-        /// <param name="url">url del manga que se desea obtener la informacion</param>
-        /// <returns></returns>
-        public async Task<MangaInfo> GetMangaInfoAsync(string url)
-        {
-            var context = GetBrowsingContext();
-
-            var document = await context.OpenAsync(url);
-
-            var manga = new MangaInfo();
-
-            var title = document.QuerySelector(Utilities.GetTitle)
-                        .TextContent.TrimEnd();
-
-            var imagenUrl = document.QuerySelector(Utilities.GetImage).Attributes["src"].Value;
-
-            var demografia = document.QuerySelector(Utilities.GetDemografia).TextContent.Trim();
-
-            var score = document.QuerySelector(Utilities.GetScore).TextContent.Trim();
-
-            var descripcion = document.QuerySelector(Utilities.GetDescripcion).TextContent.Trim();
-
-            var tipo = document.QuerySelector(Utilities.GetTipo).TextContent.Trim();
-
-            var generos = document.QuerySelectorAll(Utilities.GetGeneros).ToList();
-
-            var estado = document.QuerySelector(Utilities.GetStado).TextContent.Trim();
-
-            var generos2 = new List<string>();
-
-            foreach (var item in generos)
-            {
-                generos2.Add(item.TextContent.Trim());
-            }
-
-
-            var ulCapitulos = document.QuerySelector("#chapters > ul.list-group > div"); //obtengo el div de los capitulos escondidos
-
-
-            var lis2 = ulCapitulos.QuerySelectorAll("#chapters > ul.list-group > div > li").ToList();
-
-            var capitulos = new List<Capitulo>();
-            foreach (var li in lis2)
-            {
-                var nombreCap = li.QuerySelector("h4 > div.row > div > a.btn-collapse").TextContent.Trim();
-
-                var urlCap = li.QuerySelector("div > div > ul > li  > div.row > div.col-2 > a").Attributes["href"].Value;
-
-                var capitulo = new Capitulo();
-                capitulo.Name = nombreCap;
-                capitulo.UrlLeer = urlCap;
-
-                capitulos.Add(capitulo);
-            }
-            //objeto manga con todos los datos
-
-            manga.Title = title;
-            manga.Capitulos.AddRange(capitulos);
-            manga.Tipo = tipo;
-            manga.Score = score.ToDouble();
-            manga.ImageUrl = imagenUrl;
-            manga.Generos.AddRange(generos2);
-            manga.Demografia = demografia;
-            manga.Estado = estado;
-            manga.Description = descripcion;
-
-            return manga;
-        }
+      
+ 
         /// <summary>
         /// retorna una url segun el tipo de manga solicitado
         /// </summary>
@@ -161,7 +94,98 @@ namespace ErinaScraper.src.ErinaScraper
             return MangaUrl;
         }
 
+        /// <summary>
+        /// retorna la informacion de un manga 
+        /// </summary>
+        /// <param name="url">url del manga que se desea obtener la informacion</param>
+        /// <returns></returns>
+        public async Task<MangaInfo> GetMangaInfoAsync(string url)
+        {
+            var context = GetBrowsingContext();
+            var document = await context.OpenAsync(url);
+
+            var sectionInfo = document.QuerySelector("#app > section");
+
+
+            var title = sectionInfo.QuerySelector(Utilities.MangaInfoTitle).TextContent;
+
+            var imagen = sectionInfo.QuerySelector(Utilities.MangaInfoImagen).Attributes["src"].Value;
+
+            var tipo = sectionInfo.QuerySelector(Utilities.MangaInfoTipo).TextContent;
+
+            var score = sectionInfo.QuerySelector(Utilities.MangaInfoScore).TextContent;
+
+            var demografia = sectionInfo.QuerySelector(Utilities.MangaInfoDemografia).TextContent;
+
+            var descripcion = sectionInfo.QuerySelector(Utilities.MangaInfoDescripcion).TextContent;
+
+            var estado = sectionInfo.QuerySelector(Utilities.MangaInfoEstado).TextContent;
+
+            var generosSection = sectionInfo.QuerySelectorAll(Utilities.MANGAINFO_GENEROS);
+
+            var generosList = new List<string>();
+            foreach (var item in generosSection)
+            {
+                var genero = item.TextContent;
+
+                generosList.Add(genero);
+            }
+
+            var capitulosList = new List<Capitulo>();
+
+            //obtiene los capitulos que no estan en collapse
+            var capitulosSection = document.QuerySelectorAll(Utilities.CAPITULOS_MANGAINFO_SIN_COLLAPSE);
+
+            foreach (var item in capitulosSection)
+            {
+                var capitulo = new Capitulo
+                {
+                    Name = item.QuerySelector(Utilities.MANGA_INFO_NOMBRE_CAPITULO).TextContent,
+                    UrlLeer = item.QuerySelector(Utilities.MANGA_INFO_URL).Attributes["href"].Value
+                };
+                capitulosList.Add(capitulo) ;
+            }
+
+            //obteniendo los capitulos que  estan en collapse
+            var capitulosCollapsed = document.QuerySelectorAll(Utilities.CAPITULOS_MANGAINFO_COLLAPSE);
+
+            
+            foreach (var item in capitulosCollapsed)
+            {
+                var capitulo = new Capitulo
+                {
+                    Name = item.QuerySelector(Utilities.MANGA_INFO_NOMBRE_CAPITULO).TextContent,
+                    UrlLeer = item.QuerySelector(Utilities.MANGA_INFO_URL).Attributes["href"].Value
+                };
+                capitulosList.Add(capitulo);
+            }
+
+
+            var mangaInfo = new MangaInfo
+            {
+                Title =title,
+                ImageUrl = imagen,
+                Demografia = demografia,
+                Tipo = tipo,
+                Score = Convert.ToDouble(score) ,
+                Description = descripcion,
+                Generos = generosList,
+                Estado = estado ,
+                Capitulos = capitulosList
+
+            };
+
+
+            return mangaInfo;
+
+        }
+
+
+
     }
+
+
+    
     /// <summary>
     /// Enum para tipo de manga
     /// </summary>
