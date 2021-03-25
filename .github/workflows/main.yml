@@ -33,4 +33,4 @@ jobs:
       - name: Create the Package
         run: dotnet pack --configuration Release
       - name: Publish
-        run: dotnet nuget push "./ErinaScraper/bin/Release/*.nupkg" --api-key ${{ secrets.NUGET_AUTH_TOKEN }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "./ErinaScraper/bin/Release/*.nupkg" --api-key  --source https://api.nuget.org/v3/index.json
