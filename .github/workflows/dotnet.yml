@@ -29,7 +29,7 @@ jobs:
       uses: Rebel028/publish-nuget@2.6.1
       with:
         # Filepath of the project to be packaged, relative to root of repository
-        PROJECT_FILE_PATH: ErinaScraper/ErinaScraper/ErinaScraper.csproj
+        PROJECT_FILE_PATH: ErinaScraper/ErinaScraper.csproj
         # NuGet package id, used for version detection & defaults to project name
         PACKAGE_NAME: "ErinaScraper"
         # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
