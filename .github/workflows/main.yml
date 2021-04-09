@@ -29,11 +29,12 @@ jobs:
       - uses: actions/checkout@main
         with:
           dotnet-version: '5.0.x'
-      - name: build with dotnet
-        run: dotnet build --configuration Release
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+      - name: Build
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
       - name: Test
-        run: dotnet test
-      
+        run: dotnet test --no-build --verbosity normal
       - name: 'Get Version'
         id: version
         uses: battila7/get-version-action@v2
