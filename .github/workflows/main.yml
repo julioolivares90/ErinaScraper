@@ -26,7 +26,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v2
+      - name: Setup .net core
         with:
           dotnet-version: '5.0.x'
       - name: Restore dependencies
@@ -35,10 +36,12 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
       - name: Test
         run: dotnet test --no-build --verbosity normal
-      - name: 'Get Version'
-        id: version
-        uses: battila7/get-version-action@v2
-      - name: Create the Package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
-      - name: Publish
-        run: dotnet nuget push "./ErinaScraper/bin/Release/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }}  --source https://api.nuget.org/v3/index.json
+      - name: publish ErinaScraper
+      - uses: brandedoutcast/publish-nuget@v2.5.2
+        with:
+            PROJECT_FILE_PATH: ${{ env.PROJECT_PATH }}
+            NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+            PACKAGE_NAME: ErinaScraper
+            NUGET_SOURCE: https://api.nuget.org/v3/index.json
+            VERSION_REGEX: <Version>(.*)<\/Version>
+            VERSION_STATIC: 1.0.0
