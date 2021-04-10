@@ -78,6 +78,7 @@ namespace ErinaScraper.src.ErinaScraper
                 {
                     var divMain = document.QuerySelector("#main-container");
                     var divImagenes = divMain.QuerySelectorAll(".img-container");
+
                     foreach (var item in divImagenes)
                     {
                         var imagen = item.QuerySelector("img").Attributes["data-src"].Value;
