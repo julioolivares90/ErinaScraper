@@ -5,18 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using AngleSharp;
+using ErinaScraper.src.ErinaScraper;
 
 namespace ErinaScraper.src.ErinaScraper
 {
     public class ScraperCharpetersFromManga
     {
-        private readonly HttpClient httpClient = new HttpClient();
+        
 
+        private ErinaClientHttp erinaClient = new ErinaClientHttp();
         public async Task<List<string>> GetImagenesOfCharpeter(string urlRefer, string urlCapitulo)
         {
             var imagenes = new List<string>();
 
-            var newUrl = getUrlFromScrape(urlCapitulo);
+            var newUrl = await getUrlFromScrape(urlCapitulo,urlRefer);
 
             var content = await GetBodyFromPageAsync(urlRefer, newUrl);
 
@@ -31,33 +33,45 @@ namespace ErinaScraper.src.ErinaScraper
         }
 
 
-        private string getUrlFromScrape(string urlCapitulo)
+        private async Task<string> getUrlFromScrape(string urlCapitulo,string urlRefer)
         {
             var newUrl = "";
-            if (urlCapitulo.Contains("/paginated"))
+
+            var client = erinaClient.InitHttp(urlRefer);
+            var respone = await client.GetAsync(urlCapitulo);
+
+            if (respone.StatusCode == HttpStatusCode.OK)
             {
-                if (urlCapitulo.Contains("/paginated/1"))
+                
+               var currentUrl= respone.RequestMessage.RequestUri.ToString();
+                if (currentUrl.Contains("/paginated"))
                 {
-                    newUrl = urlCapitulo.Replace("/paginated/1", "/cascade");
+                    if (currentUrl.Contains("/paginated/1"))
+                    {
+                        newUrl = currentUrl.Replace("/paginated/1", "/cascade");
+                        return newUrl;
+                    }
+                    newUrl = currentUrl.Replace("/paginated", "/cascade");
                     return newUrl;
                 }
-                newUrl = urlCapitulo.Replace("/paginated", "/cascade");
-                return newUrl;
+                return currentUrl;
             }
-            return urlCapitulo;
+            return newUrl;
+            
         }
 
 
         private async Task<string> GetBodyFromPageAsync(string urlRefer, string urlCapitulo)
         {
-            httpClient.DefaultRequestHeaders.Add("method", "GET");
+            //httpClient.DefaultRequestHeaders.Add("method", "GET");
 
-            httpClient.DefaultRequestHeaders.Add("authority", "lectortmo.com");
+            //httpClient.DefaultRequestHeaders.Add("authority", "lectortmo.com");
 
-            httpClient.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-            httpClient.DefaultRequestHeaders.Add("referer", urlRefer);
+            //httpClient.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+            //httpClient.DefaultRequestHeaders.Add("referer", urlRefer);
 
-            var response = await httpClient.GetStringAsync(urlCapitulo);
+            var client = erinaClient.InitHttp(urlRefer);
+            var response = await client.GetStringAsync(urlCapitulo);
 
             return response;
         }
