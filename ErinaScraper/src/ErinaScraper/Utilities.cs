@@ -72,5 +72,26 @@ namespace ErinaScraper.src.ErinaScraper
             var cad3 = cad2.Replace("}", " ");
             return cad3.Trim();
         }
+
+        public static string GetDataSRC(string url,string nombreLista)
+        {
+            var nombreList = "";
+            var cadenaFinal = "";
+            var cadenaSinLectorTMO = "";
+
+            if (nombreLista.Contains(" "))
+            {
+                nombreList = nombreLista.Replace(" ", "-");
+                cadenaSinLectorTMO = url.Replace(nombreList," ");
+            }else
+            {
+                nombreList = nombreLista;
+                cadenaSinLectorTMO = url.Replace(nombreList, "");
+            }
+
+            cadenaFinal = cadenaSinLectorTMO;
+
+            return cadenaFinal;
+        }
     }
 }

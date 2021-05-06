@@ -180,7 +180,64 @@ namespace ErinaScraper.src.ErinaScraper
 
         }
 
+        public async  Task<List<ResultadoBusqueda>> BuscarMangas(string title="", string order_item="" , string order_dir ="",
+           string _page="",string filter_by ="" ,string type ="", string  demography="",
+           string status ="", string translation_status = "" ,string webcomic="",string yonkoma = "" ,string amateur = "" ,string erotic="")
+        {
+            var resultadoBusqueda = new List<ResultadoBusqueda>();
+            var urlBusqueda = $"https://lectortmo.com/library?order_item={order_item}&order_dir={order_dir}&title={title}&_page={_page}&filter_by={filter_by}&type={type}&demography={demography}&status={status}&translation_status={translation_status}&webcomic={webcomic}&yonkoma={yonkoma}&amateur={amateur}&erotic={erotic}";
+            var context = GetBrowsingContext();
 
+            var document = await context.OpenAsync(urlBusqueda);
+
+            var contenido = document.QuerySelector("#app > main > div:nth-child(2) > div.col-12.col-lg-8.col-xl-9 > div:nth-child(3)");
+            var elementos = contenido.QuerySelectorAll("div.element");
+
+
+            foreach (var item in elementos)
+            {
+                var mangaIdentificador = item.Attributes["data-identifier"].Value;
+                var busqueda = new ResultadoBusqueda
+                {
+                    Title = item.QuerySelector("a > div > div > h4").TextContent,
+                    MangaUrl = item.QuerySelector("a").GetAttribute("href"),
+                    Type = item.QuerySelector("a > div > span.book-type").TextContent,
+                    Demography = item.QuerySelector("a > div > span.demography").TextContent,
+                    Score = item.QuerySelector("a > div > span.score > span").TextContent,
+                    MangaImagen = Utilities.GetImagenFromMangaUrl(item.QuerySelector("a > div > style").TextContent,mangaIdentificador)
+                };
+                resultadoBusqueda.Add(busqueda);
+
+            }
+            return resultadoBusqueda;
+        }
+
+        public async Task<List<ListaManga>> GetListaMangasAsync(int numberPage = 1)
+        {
+            var context = GetBrowsingContext();
+            var result = new List<ListaManga>();
+            var urlVisit = $"{Utilities.BASE_URL}/lists?page={numberPage}";
+            var document = await context.OpenAsync(urlVisit);
+
+            var contenedor = document.QuerySelector("#app > main > div:nth-child(2) > div.col-12.col-lg-8.col-xl-9 > div:nth-child(3)");
+
+            var divElementos = contenedor.QuerySelectorAll("div.col - 12.col - sm - 12");
+
+            foreach (var item in divElementos)
+            {
+                var listaManga = new ListaManga
+                {
+                    Url = item.QuerySelector("a").GetAttribute("href"),
+                    Title = item.QuerySelector("div.thumbnail > div.thumbnail-title > h4.text-truncate").TextContent,
+                    Descripcion = item.QuerySelector("div.thumbnail > div.thumbnail-description > p").TextContent,
+                    CantidadDeSeguidoresLista = item
+                        .QuerySelector("div.thumbnail > div.thumbnail-container > span.followers_count").TextContent,
+
+
+                };
+            }
+            return result;
+        }
 
     }
 

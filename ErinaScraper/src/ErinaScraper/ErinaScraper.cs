@@ -62,5 +62,66 @@ namespace ErinaScraper
             
         }
 
+
+        /// <summary>
+        /// search for a manga
+        /// </summary>
+        /// <param name="title">manga title </param>
+        /// <param name="order_item">order by item </param>
+        /// <param name="order_dir">prder</param>
+        /// <param name="_page">page number</param>
+        /// <param name="filter_by">filter by</param>
+        /// <param name="type">maga type</param>
+        /// <param name="demography">manga demography</param>
+        /// <param name="status">manga status</param>
+        /// <param name="translation_status">translation status</param>
+        /// <param name="webcomic">webcomic</param>
+        /// <param name="yonkoma"></param>
+        /// <param name="amateur"></param>
+        /// <param name="erotic">erotic</param>
+        /// <returns>returns a list of mangas according to the search made</returns>
+        public async Task<List<ResultadoBusqueda>> BusquedaManga(string title = "", string order_item = "", string order_dir = "",
+           string _page = "", string filter_by = "", string type = "", string demography = "",
+           string status = "", string translation_status = "", string webcomic = "", string yonkoma = "", string amateur = "", string erotic = "")
+        {
+            try
+            {
+                var resultadoBusqueda = await Scraper
+                    .BuscarMangas(title, order_item,
+                    order_dir, _page,
+                    filter_by,
+                    type,
+                    demography,
+                    status, 
+                    translation_status,
+                    webcomic,
+                    yonkoma,
+                    amateur,
+                    erotic);
+                return resultadoBusqueda;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return new List<ResultadoBusqueda>();
+            }
+        }
+        
+        public async Task<List<ListaManga>> GetListaMangasAsync(int pageNumber)
+        {
+            var listaMangas = new List<ListaManga>();
+
+            try
+            {
+                listaMangas = await Scraper.GetListaMangasAsync(pageNumber);
+                return listaMangas;
+            }
+            catch (Exception ex)
+            {
+
+                return listaMangas;
+            }
+        }
+
     }
 }
