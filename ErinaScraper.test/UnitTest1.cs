@@ -26,5 +26,24 @@ namespace ErinaScraper.test
             }
             Assert.IsNotNull(mangas);
         }
+
+        [Test]
+        public async Task Test2()
+        {
+            ErinaScraper scraper = new ErinaScraper();
+
+            var resultadoBusqueda = await scraper.BusquedaManga(title: "naruto");
+
+            Assert.IsNotNull(resultadoBusqueda);
+        } 
+
+        [Test]
+        public async Task Test3()
+        {
+            ScraperMangas scraperMangas = new ScraperMangas();
+            var result = await scraperMangas.BuscarMangas(title:"naruto");
+
+            Assert.IsNotNull(result);
+        }
     }
 }

@@ -81,14 +81,15 @@ namespace ErinaScraper
         /// <param name="erotic">erotic</param>
         /// <returns>returns a list of mangas according to the search made</returns>
         public async Task<List<ResultadoBusqueda>> BusquedaManga(string title = "", string order_item = "", string order_dir = "",
-           string _page = "", string filter_by = "", string type = "", string demography = "",
+           string _page = "1", string filter_by = "", string type = "", string demography = "",
            string status = "", string translation_status = "", string webcomic = "", string yonkoma = "", string amateur = "", string erotic = "")
         {
             try
             {
                 var resultadoBusqueda = await Scraper
                     .BuscarMangas(title, order_item,
-                    order_dir, _page,
+                    order_dir,
+                    _page,
                     filter_by,
                     type,
                     demography,

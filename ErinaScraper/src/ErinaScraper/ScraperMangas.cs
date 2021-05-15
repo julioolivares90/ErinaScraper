@@ -9,6 +9,7 @@ namespace ErinaScraper.src.ErinaScraper
 {
    public class ScraperMangas
     {
+        private ErinaClientHttp erinaClient = new ErinaClientHttp();
         /// <summary>
         /// metodo para configurar un brwoserContext
         /// </summary>
@@ -180,36 +181,58 @@ namespace ErinaScraper.src.ErinaScraper
 
         }
 
-        public async  Task<List<ResultadoBusqueda>> BuscarMangas(string title="", string order_item="" , string order_dir ="",
-           string _page="",string filter_by ="" ,string type ="", string  demography="",
+        public async  Task<List<ResultadoBusqueda>> BuscarMangas(string title="", string order_item="" ,string _pageNumber="1", string order_dir ="",
+           string filter_by ="" ,string type ="", string  demography="",
            string status ="", string translation_status = "" ,string webcomic="",string yonkoma = "" ,string amateur = "" ,string erotic="")
         {
             var resultadoBusqueda = new List<ResultadoBusqueda>();
-            var urlBusqueda = $"https://lectortmo.com/library?order_item={order_item}&order_dir={order_dir}&title={title}&_page={_page}&filter_by={filter_by}&type={type}&demography={demography}&status={status}&translation_status={translation_status}&webcomic={webcomic}&yonkoma={yonkoma}&amateur={amateur}&erotic={erotic}";
-            var context = GetBrowsingContext();
+            //var urlBusqueda = $"https://lectortmo.com/library?_pg=1&order_item={order_item}&order_dir={order_dir}&title={title}&_page={_page}&filter_by={filter_by}&type={type}&demography={demography}&status={status}&translation_status={translation_status}&webcomic={webcomic}&yonkoma={yonkoma}&amateur={amateur}&erotic={erotic}";
 
-            var document = await context.OpenAsync(urlBusqueda);
-
-            var contenido = document.QuerySelector("#app > main > div:nth-child(2) > div.col-12.col-lg-8.col-xl-9 > div:nth-child(3)");
-            var elementos = contenido.QuerySelectorAll("div.element");
-
-
-            foreach (var item in elementos)
+            var urlBusqueda = $"https://lectortmo.com/library?order_item={order_item}&order_dir={order_dir}&title={title}&_pg={_pageNumber}&filter_by={filter_by}&type={type}&demography={demography}&status={status}&translation_status={translation_status}&webcomic={webcomic}&yonkoma={yonkoma}&amateur={amateur}&erotic={erotic}";
+            try
             {
-                var mangaIdentificador = item.Attributes["data-identifier"].Value;
-                var busqueda = new ResultadoBusqueda
-                {
-                    Title = item.QuerySelector("a > div > div > h4").TextContent,
-                    MangaUrl = item.QuerySelector("a").GetAttribute("href"),
-                    Type = item.QuerySelector("a > div > span.book-type").TextContent,
-                    Demography = item.QuerySelector("a > div > span.demography").TextContent,
-                    Score = item.QuerySelector("a > div > span.score > span").TextContent,
-                    MangaImagen = Utilities.GetImagenFromMangaUrl(item.QuerySelector("a > div > style").TextContent,mangaIdentificador)
-                };
-                resultadoBusqueda.Add(busqueda);
+                var client = ErinaClientHttp.HttpClientForLibrary();
 
+                var result = await client.GetStringAsync(urlBusqueda);
+
+                
+                var context = GetBrowsingContext();
+
+                var document = await context
+                    .OpenAsync((resp) => { resp.Content(result); });
+
+                var contenido = document.QuerySelector("#app > main > div:nth-child(2) > div.col-12.col-lg-8.col-xl-9 > div:nth-child(3)");
+
+                
+
+                var elementos = contenido.QuerySelectorAll("div.element");
+
+
+                foreach (var item in elementos)
+                {
+                    var mangaIdentificador = item.Attributes["data-identifier"].Value;
+                    var busqueda = new ResultadoBusqueda
+                    {
+                        Title = item.QuerySelector("a > div > div > h4").TextContent,
+                        MangaUrl = item.QuerySelector("a").GetAttribute("href"),
+                        Type = item.QuerySelector("a > div > span.book-type").TextContent,
+                        Demography = item.QuerySelector("a > div > span.demography").TextContent,
+                        Score = item.QuerySelector("a > div > span.score > span").TextContent,
+                        MangaImagen = Utilities.GetImagenFromMangaUrl(item.QuerySelector("a > div > style").TextContent, mangaIdentificador)
+                    };
+                    resultadoBusqueda.Add(busqueda);
+
+                }
+                return resultadoBusqueda;
             }
-            return resultadoBusqueda;
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.ToString());
+                return resultadoBusqueda;
+            }
+
+           
         }
 
         public async Task<List<ListaManga>> GetListaMangasAsync(int numberPage = 1)
@@ -239,9 +262,9 @@ namespace ErinaScraper.src.ErinaScraper
             return result;
         }
 
+        
+
     }
-
-
     
     /// <summary>
     /// Enum para tipo de manga
