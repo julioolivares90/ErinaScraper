@@ -36,7 +36,7 @@ namespace ErinaScraper.src.ErinaScraper
         private async Task<string> getUrlFromScrape(string urlCapitulo,string urlRefer)
         {
             var newUrl = "";
-
+            Console.WriteLine(urlRefer);
             var client = erinaClient.InitHttp(urlRefer);
             var respone = await client.GetAsync(urlCapitulo);
 
@@ -71,6 +71,7 @@ namespace ErinaScraper.src.ErinaScraper
             //httpClient.DefaultRequestHeaders.Add("referer", urlRefer);
 
             var client = erinaClient.InitHttp(urlRefer);
+            Console.WriteLine(urlCapitulo);
             var response = await client.GetStringAsync(urlCapitulo);
 
             return response;

@@ -45,5 +45,16 @@ namespace ErinaScraper.test
 
             Assert.IsNotNull(result);
         }
+
+        [Test]
+        public async Task Test4()
+        {
+            ErinaScraper scraper = new ErinaScraper();
+
+            var result = await scraper.GetCapitulosManga(urlRefer: "https://lectortmo.com/library/manhwa/41512/solo-leveling",
+                urlCapitulo: "https://lectortmo.com/view_uploads/757022");
+
+            Assert.IsNotNull(result);
+        }
     }
 }

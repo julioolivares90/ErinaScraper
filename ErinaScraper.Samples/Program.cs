@@ -66,6 +66,14 @@ namespace ErinaScraper.Samples
                 Console.WriteLine(item.ToString());
                 Console.WriteLine("------------------------------------------");
             }
+
+            var capitulos = await scraper.GetCapitulosManga(urlRefer: "https://lectortmo.com/library/manhwa/41512/solo-leveling",
+                urlCapitulo: "https://lectortmo.com/view_uploads/757022");
+
+            foreach (var item in capitulos)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 
