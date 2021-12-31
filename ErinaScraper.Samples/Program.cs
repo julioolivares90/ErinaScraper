@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp;
 using ErinaScraper.src.ErinaScraper;
+using ErinaScraper.src.ErinaScraper.src.Utilities;
 
 namespace ErinaScraper.Samples
 {
@@ -12,7 +13,12 @@ namespace ErinaScraper.Samples
         static async Task Main(string[] args)
         {
             var scraper = new ErinaScraper();
+            var cadtest = StringHelpers.GetFolderKey("https://www.mediafire.com/folder/jgv89r797g2lo/Strike_the_Blood_III_BD");
 
+            if (!string.IsNullOrEmpty(cadtest))
+            {
+                Console.WriteLine(cadtest);
+            }
             //Obtenemos los mangas populares del sitio
             //var mangasPopulares = await scraper.GetMangasAsync(MangaType.Populars);
 
